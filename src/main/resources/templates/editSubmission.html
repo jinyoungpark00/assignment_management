@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>evaluate Submission</title>
 </head>
 <body>
-$END$
+<h1>제출물 평가</h1>
+<form th:action="@{/submission/{id}/evaluate-grade(id=${submissionRequestDTO.id})}" th:object="${submissionRequestDTO}" method="post">
+    <div>
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" name="grade" th:field="*{grade}" />
+    </div>
+    <div>
+        <button type="submit">평가</button>
+    </div>
+</form>
 </body>
 </html>

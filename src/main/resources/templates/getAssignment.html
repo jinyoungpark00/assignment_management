@@ -1,10 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Assignment Details</title>
 </head>
 <body>
-$END$
+<h1>과제 상세</h1>
+<div>
+    <p><strong>Title:</strong> <span th:text="${assignment.title}"></span></p>
+    <p><strong>Due Date:</strong> <span th:text="${#dates.format(assignment.dueDate, 'yyyy-MM-dd')}"></span></p>
+    <p><strong>Content:</strong></p>
+    <p th:text="${assignment.content}"></p>
+    <h3>교수</h3>
+    <a th:href="@{/assignment/{id}/edit-assignment(id=${assignment.id})}">
+        <button>과제 수정</button>
+    </a>
+    <form th:action="@{/assignment/{id}/delete(id=${assignment.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?')">
+        <button type="submit">과제 삭제</button>
+    </form>
+    <br>
+
+    <h3>학생</h3>
+    <form th:action="@{/submission/new}" method="get">
+        <button type="submit">제출</button>
+    </form>
+    <br>
+    <h3>공용</h3>
+    <a th:href="@{/assignment/}">
+    <button>목록으로 돌아가기</button>
+    </a>
+    <br>
+    <h3>Submissions</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Student</th>
+            <th>Submit Date</th>
+            <th>Assignment File</th>
+            <th>Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="submission : ${assignment.submissions}">
+            <td th:text="${submission.user.name}"></td>
+            <td th:text="${#dates.format(submission.submitDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${submission.assignmentFile}"></td>
+            <td th:text="${submission.grade}"></td>
+            <td>
+                <a th:href="@{/submission/{id}/evaluate-grade(id=${submission.id})}">
+                <button>제출물 평가</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
 </body>
 </html>
